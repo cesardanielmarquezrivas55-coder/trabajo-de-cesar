@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RotomDex</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.35)
+    ),
+    url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+
+    background-size:cover;
+    background-position:center;
+}
+
+/* ROTOMDEX */
+
+.chat-container{
+
+    width:460px;
+    height:90vh;
+
+    background:#e60000;
+
+    border:4px solid #900;
+
+    border-radius:40px;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:
+    0 0 20px rgba(255,0,0,.7),
+    0 0 80px rgba(255,0,0,.3);
+
+    overflow:hidden;
+
+    animation:flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0px);}
+}
+
+/* ALAS */
+
+.rotom-wing{
+    position:absolute;
+    width:120px;
+    height:180px;
+    background:#ff4538;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:-1;
+    border:4px solid #900;
+}
+
+.left{
+    left:-85px;
+    clip-path:polygon(100% 0,0 50%,100% 100%);
+}
+
+.right{
+    right:-85px;
+    clip-path:polygon(0 0,100% 50%,0 100%);
+}
+
+/* OJOS */
+
+.rotom-face{
+    display:flex;
+    justify-content:center;
+    gap:90px;
+    margin-top:15px;
+}
+
+.eye{
+    width:55px;
+    height:75px;
+
+    background:white;
+
+    border-radius:50%;
+
+    border:4px solid #222;
+
+    position:relative;
+}
+
+.eye::after{
+
+    content:'';
+
+    width:24px;
+    height:40px;
+
+    background:#4285f4;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+}
+
+/* HEADER */
+
+.chat-header{
+
+    background:linear-gradient(#ff0000,#c00000);
+
+    color:white;
+
+    padding:15px 20px;
+
+    display:flex;
+    align-items:center;
+
+    border-bottom:5px solid #111;
+}
+
+.avatar-status{
+
+    width:12px;
+    height:12px;
+
+    border-radius:50%;
+
+    background:#00ffd5;
+
+    margin-right:12px;
+
+    box-shadow:0 0 10px #00ffd5;
+}
+
+.chat-header h2{
+    font-size:22px;
+    font-weight:700;
+}
+
+.pokeball-btn{
+
+    margin-left:auto;
+
+    width:36px;
+    height:36px;
+
+    border-radius:50%;
+
+    background:white;
+
+    border:4px solid #222;
+
+    box-shadow:0 0 10px rgba(255,255,255,.7);
+}
+
+/* PANTALLA */
+
+.chat-messages{
+
+    flex:1;
+
+    margin:15px;
+
+    background:white;
+
+    border:6px solid #222;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    overflow-y:auto;
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+/* MENSAJES */
+
+.message{
+    max-width:75%;
+    padding:12px 16px;
+    line-height:1.5;
+    /* CORRECCIÓN: Se quita pre-line para evitar saltos dobles junto con los <br> */
+}
+
+.message.bot{
+
+    background:#f1f1f1;
+
+    color:#222;
+
+    border-left:5px solid #e60000;
+
+    border-radius:0 20px 20px 20px;
+
+    align-self:flex-start;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.message.user{
+
+    background:linear-gradient(
+    135deg,
+    #007bff,
+    #0056d6
+    );
+
+    color:white;
+
+    align-self:flex-end;
+
+    border-radius:20px 20px 0 20px;
+}
+
+/* INPUT */
+
+.chat-input-container{
+
+    background:#222;
+
+    padding:15px;
+
+    display:flex;
+    gap:10px;
+}
+
+.chat-input-container input{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:30px;
+
+    outline:none;
+
+    font-size:15px;
+}
+
+.chat-input-container button{
+
+    border:none;
+
+    background:#ff0000;
+
+    color:white;
+
+    font-weight:700;
+
+    padding:14px 24px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.chat-input-container button:hover{
+
+    background:#c00000;
+
+    transform:scale(1.05);
+}
+
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+
+    <div class="rotom-wing left"></div>
+    <div class="rotom-wing right"></div>
+
+    <div class="rotom-face">
+        <div class="eye"></div>
+        <div class="eye"></div>
+    </div>
+
+    <div class="chat-header">
+
+        <div class="avatar-status"></div>
+
+        <h2>RotomDex - Asistente Tepic</h2>
+
+        <div class="pokeball-btn"></div>
+
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+
+        <div class="message bot">¡Szzzt! ¡Hola! Soy tu RotomDex.<br><br>Puedo darte datos de Tepic, el clima o información Pokémon.<br><br>¡Escribe "ayuda" para ver los comandos disponibles!</div>
+
+    </div>
+
+    <div class="chat-input-container">
+
+        <input
+        type="text"
+        id="user-input"
+        placeholder="¿Qué quieres consultar, Entrenador?"
+        onkeypress="evaluarEnter(event)">
+
+        <button onclick="enviarMensaje()">
+            Enviar
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+const chatMessages =
+document.getElementById('chat-messages');
+
+const userInput =
+document.getElementById('user-input');
+
+function enviarMensaje(){
+
+    const texto =
+    userInput.value.trim();
+
+    if(texto==="") return;
+
+    agregarMensaje(texto,'user');
+
+    userInput.value='';
+
+    fetch('/chat',{
+
+        method:'POST',
+
+        headers:{
+            'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+            mensaje:texto
+        })
+
+    })
+
+    .then(response=>response.json())
+
+    .then(data=>{
+
+        agregarMensaje(
+            data.respuesta,
+            'bot'
+        );
+
+    })
+
+    .catch(error=>{
+
+        console.error(error);
+
+        agregarMensaje(
+            '⚡ Error de conexión con la RotomDex.',
+            'bot'
+        );
+
+    });
+
+}
+
+function agregarMensaje(texto,emisor){
+
+    const div =
+    document.createElement('div');
+
+    div.classList.add(
+        'message',
+        emisor
+    );
+
+    // SOLUCIÓN TOTAL: Cambiado de textContent a innerHTML para procesar etiquetas HTML
+    div.innerHTML = texto;
+
+    chatMessages.appendChild(div);
+
+    chatMessages.scrollTop=
+    chatMessages.scrollHeight;
+}
+
+function evaluarEnter(event){
+
+    if(event.key==='Enter'){
+
+        enviarMensaje();
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
